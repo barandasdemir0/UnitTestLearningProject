@@ -21,6 +21,8 @@ public class UserServiceTest
         _sut = new(_userRepository, _logger);
     }
 
+    #region getall testleri
+
     [Fact]
     public async Task GetAllAsync_ShouldReturnEmptyList_WhenNoUsersExist()
     {
@@ -84,7 +86,9 @@ public class UserServiceTest
         _logger.Received(1).LogError(Arg.Is(exception),Arg.Is("Something went wrong while retrieving all user"));
     }
 
+    #endregion
 
+    #region getbyıd testleri
     [Fact]
     public async Task GetByIdAsync_ShouldReturnNull_WhenNoUserExists()
     {
@@ -150,5 +154,21 @@ public class UserServiceTest
 
         _logger.Received(1).LogError(Arg.Is(exception), Arg.Is("Something went wrong while retrieving user with id:{0}"),userId);
     }
+    #endregion
 
+    #region create testleri
+
+    //public async Task CreateAsync_ShouldThrownAnError_WhenUserCreateDetailsAreNotValid()
+    //{
+
+    //}
+
+
+
+
+
+
+
+
+    #endregion
 }
