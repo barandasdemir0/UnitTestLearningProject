@@ -1,10 +1,16 @@
 <Solution>
   <Folder Name="/Fundamentals/" />
   <Folder Name="/Fundamentals/src/">
-    <Project Path="Fundamentals/CalculatorLibrary/CalculatorLibrary.csproj" Id="395be3bc-6693-4d4e-bfe1-f1c6270b394f" />
+    <Project Path="Fundamentals/src/CalculatorLibrary/CalculatorLibrary.csproj" />
   </Folder>
   <Folder Name="/Fundamentals/test/">
-    <Project Path="Fundamentals/CalculatorLibraryTests/CalculatorLibrary.Tests.Unit.csproj" Id="8327237e-5ffa-4613-8ac9-db8884451019" />
+    <Project Path="Fundamentals/test/CalculatorLibraryTests/CalculatorLibrary.Tests.Unit.csproj" />
   </Folder>
   <Folder Name="/Technuqies/" />
+  <Folder Name="/Technuqies/src/">
+    <Project Path="Technuqies/src/TestingTechniques/TestingTechniques.csproj" Id="edff28f8-c4c3-43c5-9ce8-56546541db76" />
+  </Folder>
+  <Folder Name="/Technuqies/test/">
+    <Project Path="Technuqies/test/TestingTechniques.Test.Unit/TestingTechniques.Test.Unit.csproj" Id="4a919ceb-015c-495c-91b4-47185187aa01" />
+  </Folder>
 </Solution>

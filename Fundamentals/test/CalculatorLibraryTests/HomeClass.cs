@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,7 +17,10 @@ public class HomeClass
     public void Added_ShouldAddTwoNumbers_WhenTwoNumbersAreIntegers(int a ,int b,int expected)
     {
         var result = _calculator.Add(a, b);
-        Assert.Equal(expected, result);
+        //Assert.Equal(expected, result);
+        //üsttekinin yerine fluentassertiion kullanılaiblir
+
+        result.Should().Be(expected);
     }
 
     [Theory]
@@ -28,7 +32,11 @@ public class HomeClass
     public void Subtract_ShouldSubtractTwoNumbers_WhenTwoNumbersAreIntegers(int a ,int b,int expected)
     {
         var result = _calculator.Subtract(a, b);
-        Assert.Equal(expected, result);
+        //Assert.Equal(expected, result);
+
+        //üsttekinin yerine fluentassertiion kullanılaiblir
+
+        result.Should().Be(expected);
     }
 
     [Theory]
@@ -38,17 +46,24 @@ public class HomeClass
     public void Multiply_ShouldMultiplyTwoNumbers_WhenTwoNumbersAreIntegers(int a, int b, int expected)
     {
         var result = _calculator.Multiply(a, b);
-        Assert.Equal(expected, result);
+        //Assert.Equal(expected, result);
+        //üsttekinin yerine fluentassertiion kullanılaiblir
+
+        result.Should().Be(expected);
     }
 
     [Theory]
     [InlineData(5, 5, 1)]
     [InlineData(15, 5, 3)]
-    [InlineData(0, 0, Skip ="Bu Test ignore edilmiştir")]
+    [InlineData(0, 0, 0, Skip ="Bu Test ignore edilmiştir")]
     public void Divide_ShouldDivideTwoNumbers_WhenTwoNumbersAreIntegers(int a, int b, int expected)
     {
         var result = _calculator.Divide(a, b);
-        Assert.Equal(expected, result);
+        //Assert.Equal(expected, result);
+
+        //üsttekinin yerine fluentassertiion kullanılaiblir
+
+        result.Should().Be(expected);
     }
 
 

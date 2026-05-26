@@ -1,4 +1,5 @@
 ﻿using CalculatorLibrary;
+using FluentAssertions;
 using Xunit.Abstractions;
 
 namespace CalculatorLibraryTests;
@@ -35,6 +36,8 @@ public class CalculatorTests:IAsyncLifetime /*IDisposable*/ /*--> bu normal yap�
 
         //istediğimiz sonucu burası takip ediyor sonuçların yakalandığı sonuçların kontrol edildiği kısımdır
         Assert.Equal(expected, result);
+
+
     }
 
     [Fact]
@@ -69,12 +72,12 @@ public class CalculatorTests:IAsyncLifetime /*IDisposable*/ /*--> bu normal yap�
     public async  Task InitializeAsync()
     {
         _outputHelper.WriteLine("Hello From the initialize");
-        Task.Delay(1);
+        await Task.Delay(1);
     }
 
     public async Task DisposeAsync()
     {
         _outputHelper.WriteLine("Hello From the dispose async");
-        Task.Delay(2);
+        await Task.Delay(2);
     }
 }
