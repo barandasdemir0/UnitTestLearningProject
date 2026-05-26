@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Users.Api.Context;
+using Users.Api.Logging;
 using Users.Api.Repositories;
 using Users.Api.Services;
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddTransient(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
 // Add services to the container.
 
 builder.Services.AddControllers();

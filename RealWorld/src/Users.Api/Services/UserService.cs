@@ -1,13 +1,14 @@
 ﻿using FluentValidation;
 using System.Diagnostics;
 using Users.Api.Dtos;
+using Users.Api.Logging;
 using Users.Api.Models;
 using Users.Api.Repositories;
 using Users.Api.Validator;
 
 namespace Users.Api.Services;
 
-public sealed class UserService(IUserRepository userRepository, ILogger<User> logger) : IUserService
+public sealed class UserService(IUserRepository userRepository, ILoggerAdapter<UserService> logger) : IUserService
 {
     public async Task<bool> CreateAsync(CreateUserDto createUserDto, CancellationToken cancellation = default)
     {
@@ -82,7 +83,7 @@ public sealed class UserService(IUserRepository userRepository, ILogger<User> lo
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Something went wrong while retrieving a user");
+            logger.LogError(ex, "Something went wrong while retrieving all user");
             throw;
         }
         finally
