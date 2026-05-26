@@ -1,1 +1,5 @@
-<Solution />
+<Solution>
+  <Folder Name="/Fundamentals/">
+    <Project Path="UnitTestLearningProject.CalculatorLibrary/UnitTestLearningProject.CalculatorLibrary.csproj" />
+  </Folder>
+</Solution>
