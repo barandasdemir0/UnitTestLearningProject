@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
+using NSubstitute.ReturnsExtensions;
 using Users.Api.Logging;
 using Users.Api.Models;
 using Users.Api.Repositories;
@@ -83,5 +84,71 @@ public class UserServiceTest
         _logger.Received(1).LogError(Arg.Is(exception),Arg.Is("Something went wrong while retrieving all user"));
     }
 
+
+    [Fact]
+    public async Task GetByIdAsync_ShouldReturnNull_WhenNoUserExists()
+    {
+        //arrange
+        _userRepository.GetByIdAsync(Arg.Any<Guid>()).ReturnsNull();
+
+        //act
+        var result = await _sut.GetByIdAsync(Guid.CreateVersion7());
+        //assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetByIdAsync_ShouldReturnsUsers_WhenSomeUsersExist()
+    {
+        //arrange
+        var existingUser = new User
+        {
+            Id = Guid.CreateVersion7(),
+            FullName = "Baran Daşdemir"
+        };
+        _userRepository.GetByIdAsync(Arg.Any<Guid>()).Returns(existingUser);
+        //act
+        var result = await _sut.GetByIdAsync(Guid.CreateVersion7());
+
+        //assert
+        result.Should().BeEquivalentTo(existingUser);
+
+
+    }
+
+
+    [Fact]
+    public async Task GetByIdAsync_ShouldLogMessages_WhenInvoked()
+    {
+        //arrange
+        var userId = Guid.CreateVersion7();
+        _userRepository.GetByIdAsync(userId).ReturnsNull();
+
+        //act
+        await _sut.GetByIdAsync(userId);
+
+        //assert
+        _logger.Received(1).LogInformation(Arg.Is("retrieving user with id:{0}"),userId);
+        _logger.Received(1).LogInformation(Arg.Is("user with id:{0} retrieved in {1}ms"),userId, Arg.Any<long>());
+    }
+
+
+
+    [Fact]
+    public async Task GetByIdAsync_ShouldLogMessageAndException_WhenExceptionIsThrown()
+    {
+        //arrange
+        var userId = Guid.CreateVersion7();
+        var exception = new ArgumentException("Something went wrong while retrieving user");
+        _userRepository.GetByIdAsync(userId).Throws(exception);
+        //act
+        var requestAction = async () => await _sut.GetByIdAsync(userId);
+
+        //assert
+        await requestAction.Should()
+            .ThrowAsync<ArgumentException>();
+
+        _logger.Received(1).LogError(Arg.Is(exception), Arg.Is("Something went wrong while retrieving user with id:{0}"),userId);
+    }
 
 }
