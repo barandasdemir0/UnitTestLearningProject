@@ -15,9 +15,16 @@
   </Folder>
   <Folder Name="/3.Concepts/" />
   <Folder Name="/3.Concepts/src/">
-    <Project Path="UnderstandingDependencies.Api/UnderstandingDependencies.Api.csproj" Id="76b40aab-cd1c-4e08-8e9d-0b40689bbd5f" />
+    <Project Path="Concepts/src/UnderstandingDependencies.Api/UnderstandingDependencies.Api.csproj" />
   </Folder>
   <Folder Name="/3.Concepts/test/">
-    <Project Path="UnderstandingDependencies.Api.Tests.Unit/UnderstandingDependencies.Api.Tests.Unit.csproj" Id="f97be345-e226-4e20-a2f2-3b3243e872ea" />
+    <Project Path="Concepts/test/UnderstandingDependencies.Api.Tests.Unit/UnderstandingDependencies.Api.Tests.Unit.csproj" />
+  </Folder>
+  <Folder Name="/4.RealWorld/" />
+  <Folder Name="/4.RealWorld/src/">
+    <Project Path="RealWorld/src/Users.Api/Users.Api.csproj" Id="d42ea5ce-82db-47dc-88ad-f8cb526d3cdb" />
+  </Folder>
+  <Folder Name="/4.RealWorld/test/">
+    <Project Path="RealWorld/test/Users.Api.Test.Unit/Users.Api.Test.Unit.csproj" Id="2497c074-f59e-420a-a935-d676828fb144" />
   </Folder>
 </Solution>
