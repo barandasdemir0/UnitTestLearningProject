@@ -6,4 +6,5 @@
   <Folder Name="/Fundamentals/test/">
     <Project Path="Fundamentals/CalculatorLibraryTests/CalculatorLibrary.Tests.Unit.csproj" Id="8327237e-5ffa-4613-8ac9-db8884451019" />
   </Folder>
+  <Folder Name="/Technuqies/" />
 </Solution>
