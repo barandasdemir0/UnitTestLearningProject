@@ -1,5 +1,5 @@
 <Solution>
   <Folder Name="/Fundamentals/">
-    <Project Path="UnitTestLearningProject.CalculatorLibrary/UnitTestLearningProject.CalculatorLibrary.csproj" />
+    <Project Path="CalculatorLibrary/CalculatorLibrary.csproj" Id="0a6678d1-d15a-4e30-9c5b-821abf81c4c9" />
   </Folder>
 </Solution>
