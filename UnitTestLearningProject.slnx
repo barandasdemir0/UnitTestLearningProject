@@ -14,6 +14,10 @@
     <Project Path="Technuqies/test/TestingTechniques.Test.Unit/TestingTechniques.Test.Unit.csproj" Id="4a919ceb-015c-495c-91b4-47185187aa01" />
   </Folder>
   <Folder Name="/3.Concepts/" />
-  <Folder Name="/3.Concepts/src/" />
-  <Folder Name="/3.Concepts/test/" />
+  <Folder Name="/3.Concepts/src/">
+    <Project Path="UnderstandingDependencies.Api/UnderstandingDependencies.Api.csproj" Id="76b40aab-cd1c-4e08-8e9d-0b40689bbd5f" />
+  </Folder>
+  <Folder Name="/3.Concepts/test/">
+    <Project Path="UnderstandingDependencies.Api.Tests.Unit/UnderstandingDependencies.Api.Tests.Unit.csproj" Id="f97be345-e226-4e20-a2f2-3b3243e872ea" />
+  </Folder>
 </Solution>
