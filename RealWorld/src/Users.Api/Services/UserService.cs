@@ -24,12 +24,8 @@ public sealed class UserService(IUserRepository userRepository, ILoggerAdapter<U
         {
             throw new ArgumentException("Name already exist");
         }
-
-        User user = new()
-        {
-            Id = Guid.CreateVersion7(),
-            FullName = createUserDto.FullName
-        };
+        var user = CreateUserDtoToUserObject(createUserDto);
+       
         logger.LogInformation("creating user with id : {0} and name : {1}", user.Id, user.FullName);
         var stopWatch = Stopwatch.StartNew();
         try
@@ -46,6 +42,15 @@ public sealed class UserService(IUserRepository userRepository, ILoggerAdapter<U
             stopWatch.Stop();
             logger.LogInformation("user with id : {0} created in {1}ms", user.Id, stopWatch.ElapsedMilliseconds);
         }
+    }
+    public User CreateUserDtoToUserObject(CreateUserDto request)
+    {
+        User user = new()
+        {
+            Id = Guid.CreateVersion7(),
+            FullName = request.FullName
+        };
+        return user;
     }
 
     public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellation = default)

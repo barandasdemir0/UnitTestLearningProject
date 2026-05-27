@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
+using FluentValidation;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
+using Users.Api.Dtos;
 using Users.Api.Logging;
 using Users.Api.Models;
 using Users.Api.Repositories;
@@ -158,12 +160,106 @@ public class UserServiceTest
 
     #region create testleri
 
-    //public async Task CreateAsync_ShouldThrownAnError_WhenUserCreateDetailsAreNotValid()
-    //{
+    [Fact]
+    public async Task CreateAsync_ShouldThrownAnError_WhenUserCreateDetailsAreNotValid()
+    {
+        //arrange
+        CreateUserDto request = new("");
 
-    //}
+
+        //act
+        var action = async () => await _sut.CreateAsync(request);
+
+        //assert
+        await action.Should().ThrowAsync<ValidationException>();
+    }
 
 
+    [Fact]
+    public async Task CreateAsync_ShouldThrownAnError_WhenUserNameExist()
+    {
+        //arrange
+        _userRepository.NameIsExistAsync(Arg.Any<string>()).Returns(true);
+
+        //act
+        var action = async () => await _sut.CreateAsync(new("Baran Daşdemir"));
+
+        //assert
+        await action.Should().ThrowAsync<ArgumentException>();
+    }
+
+
+    [Fact]
+    public void CreateAsync_ShouledCreateUserDtoToUserObject()
+    {
+        //arrange
+        CreateUserDto request = new("Baran Daşdemir");
+        //act
+        var user = _sut.CreateUserDtoToUserObject(request);
+
+        //assert
+        user.FullName.Should().Be(request.FullName);
+    }
+
+
+    [Fact]
+    public async Task CreateAsync_ShouldCreateUser_WhenDetailsAreValidAnUnique()
+    {
+        //arrange
+
+        CreateUserDto request = new("Baran Daşdemir");
+        _userRepository.NameIsExistAsync(request.FullName).Returns(false);
+        _userRepository.CreateAsync(Arg.Any<User>()).Returns(true);
+
+        //Act
+        var user = await _sut.CreateAsync(request);
+
+        //assert
+        user.Should().Be(true);
+    }
+
+
+    [Fact]
+    public async Task CreateAsync_ShouldLogMessages_WhenInvoked()
+    {
+        //arrange
+        CreateUserDto request = new("Baran Daşdemir");
+        _userRepository.NameIsExistAsync(request.FullName).Returns(false);
+        _userRepository.CreateAsync(Arg.Any<User>()).Returns(true);
+        //act
+        await _sut.CreateAsync(request);
+
+        //assert
+        _logger.Received(1).LogInformation
+            (
+            Arg.Is("creating user with id : {0} and name : {1}"),
+            Arg.Any<Guid>(), 
+            Arg.Is(request.FullName)
+            );
+        _logger.Received(1).LogInformation
+            (
+            Arg.Is("user with id : {0} created in {1}ms"),
+            Arg.Any<Guid>(),
+            Arg.Any<long>()
+            );
+    }
+
+    [Fact]
+    public async Task CreateAsync_ShouldLogMessagesAndException_WhenExceptionIsThrown()
+    {
+        //arrange
+        CreateUserDto request = new("Baran Daşdemir");
+        var exception = new ArgumentException("Something went wrong while creating a user");
+        _userRepository.CreateAsync(Arg.Any<User>()).Throws(exception);
+        //act
+        var requestAction = async ()=> await _sut.CreateAsync(request);
+
+        //assert
+        await requestAction.Should()
+             .ThrowAsync<ArgumentException>();
+
+        _logger.Received(1).LogError(Arg.Is(exception), Arg.Is("Something went wrong while creating a user"));
+    }
 
 
 
