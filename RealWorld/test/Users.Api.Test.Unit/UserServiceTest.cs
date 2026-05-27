@@ -267,4 +267,95 @@ public class UserServiceTest
 
 
     #endregion
+
+    #region DeleteById Testleri
+
+    [Fact]
+    public async Task DeleteByIdAsync_ShouldThrownAnError_WhenUserNotExist()
+    {
+        //arrange
+        var userId = Guid.CreateVersion7();
+        
+        _userRepository.GetByIdAsync(userId).ReturnsNull();
+
+        //act
+        var action = async () => await _sut.DeleteByIdAsync(userId);
+
+        //assert
+        await action.Should().ThrowAsync<ArgumentException>();
+    }
+
+    [Fact]
+    public async Task DeleteByIdAsync_ShouldDeleteUser_WhenUserExist()
+    {
+        //arrange
+        var userId = Guid.CreateVersion7();
+        User user = new()
+        {
+            Id = userId,
+            FullName = "Baran Daşdemir"
+        };
+        _userRepository.GetByIdAsync(userId).Returns(user);
+        _userRepository.DeleteAsync(user).Returns(true);
+
+        //act
+        var result = await _sut.DeleteByIdAsync(userId);
+
+        //assert
+        result.Should().BeTrue();
+    }
+
+
+    [Fact]
+    public async Task DeleteByIdAsync_ShouldLogMessages_WhenInvoked()
+    {
+        // Arrange
+        var userId = Guid.CreateVersion7();
+        var user = new User()
+        {
+            Id = userId,
+            FullName = "Baran Daşdemir"
+        };
+        _userRepository.GetByIdAsync(userId).Returns(user);
+        _userRepository.DeleteAsync(user).Returns(true);
+
+        // Act
+        await _sut.DeleteByIdAsync(userId);
+
+        // Assert
+        _logger.Received(1).LogInformation(
+            Arg.Is("Deleting user with id : {0}"),
+            Arg.Is(userId));
+        _logger.Received(1).LogInformation(
+            Arg.Is("user with id : {0} deleted in {1}ms"),
+            Arg.Is(userId),
+            Arg.Any<long>());
+    }
+
+    [Fact]
+    public async Task DeleteByIdAsync_ShouldLogMessagesAndException_WhenExceptionIsThrown()
+    {
+        // Arrange
+        var userId = Guid.CreateVersion7();
+        var user = new User()
+        {
+            Id = userId,
+            FullName = "Baran Daşdemir"
+        };
+        _userRepository.GetByIdAsync(userId).Returns(user);
+        var exception = new ArgumentException("Something went wrong while deleting a user");
+        _userRepository.DeleteAsync(user).Throws(exception);
+
+        // Act
+        var requestAction = async () => await _sut.DeleteByIdAsync(userId);
+
+        // Assert
+        await requestAction.Should()
+             .ThrowAsync<ArgumentException>();
+
+        _logger.Received(1).LogError(Arg.Is(exception), Arg.Is("Something went wrong while deleting a user"));
+    }
+
+
+    #endregion
 }
